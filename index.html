@@ -171,25 +171,28 @@
             box-shadow: 0 10px 25px rgba(11, 29, 69, 0.08);
         }
 
-        /* Header Banner with Racing Navy Background & White Text */
+        /* Header Banner with Racing Navy Background & Clean Proportions */
         .report-header-banner {
             background-color: var(--goodyear-racing-navy);
             color: var(--goodyear-white);
-            padding: 16px 24px;
+            padding: 16px 28px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            gap: 20px;
             border-bottom: 4px solid var(--goodyear-trophy-gold);
         }
 
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 18px;
+            gap: 20px;
+            flex-shrink: 0;
         }
 
         .header-brand img {
-            height: 42px;
+            height: 38px;
+            width: auto;
             object-fit: contain;
             filter: none;
         }
@@ -197,52 +200,42 @@
         .brand-text {
             display: flex;
             flex-direction: column;
-            gap: 2px;
+            gap: 3px;
         }
 
         .main-headline {
             font-family: var(--font-body);
             font-weight: 800;
             font-size: 20px;
-            color: #F8FAFC;
+            color: #FFFFFF;
             letter-spacing: 0.5px;
-            line-height: 1.2;
+            line-height: 1.1;
             text-transform: uppercase;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-        }
-
-        .badge-gold-header {
-            background: var(--goodyear-trophy-gold);
-            color: var(--goodyear-racing-navy);
-            font-size: 11px;
-            font-weight: 800;
-            padding: 2px 8px;
-            border-radius: 3px;
-            letter-spacing: 0.5px;
-            font-family: var(--font-body);
+            white-space: nowrap;
+            margin: 0;
         }
 
         .subheadline-caption {
-            font-family: var(--font-caption);
-            font-style: italic;
-            font-size: 13px;
-            color: #CBD5E1;
+            font-family: var(--font-body);
+            font-size: 12.5px;
+            color: #94A3B8;
             font-weight: 500;
+            margin: 0;
+            line-height: 1.2;
         }
 
         .header-meta {
             display: flex;
             align-items: center;
             gap: 10px;
+            flex-shrink: 0;
         }
 
         .badge-shift {
-            background: rgba(255, 255, 255, 0.12);
+            background: rgba(255, 255, 255, 0.08);
             color: var(--goodyear-trophy-gold);
             border: 1px solid rgba(251, 189, 0, 0.4);
-            padding: 6px 14px;
+            padding: 0 16px;
             border-radius: 4px;
             font-size: 12.5px;
             font-weight: 700;
@@ -251,16 +244,23 @@
             display: flex;
             align-items: center;
             gap: 8px;
+            height: 38px;
+            white-space: nowrap;
         }
 
         .badge-time {
             background: #FFFFFF;
             color: var(--goodyear-racing-navy);
-            padding: 6px 12px;
+            border: 1px solid #CBD5E1;
+            padding: 0 14px;
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 12.5px;
             font-weight: 700;
             font-family: var(--font-mono);
+            display: flex;
+            align-items: center;
+            height: 38px;
+            white-space: nowrap;
         }
 
         /* Inner Content Body */
