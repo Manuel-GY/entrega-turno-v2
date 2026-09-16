@@ -1,0 +1,1055 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Entrega de Turno ASRS v2 - Consolidado Visual</title>
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Flatpickr & html2canvas -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+
+    <style>
+        :root {
+            --gy-blue: #0b2545;
+            --gy-yellow: #f5b700;
+            --gy-dark: #0f172a;
+            --gy-gray-bg: #f8fafc;
+            --card-bg: #ffffff;
+            --border: #e2e8f0;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --green: #10b981;
+            --red: #ef4444;
+            --orange: #f97316;
+            --indigo: #4f46e5;
+            --shadow-card: 0 10px 25px -5px rgba(15, 23, 42, 0.06), 0 8px 10px -6px rgba(15, 23, 42, 0.04);
+            --shadow-float: 0 20px 35px -10px rgba(11, 37, 69, 0.15);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: #eceff4;
+            color: var(--text-main);
+            min-height: 100vh;
+            padding: 24px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Top Action Bar */
+        .action-toolbar {
+            width: 1200px;
+            max-width: 100%;
+            background: #ffffff;
+            border-radius: 16px;
+            padding: 14px 24px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid var(--border);
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .controls-left {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
+
+        .input-group-custom {
+            display: flex;
+            align-items: center;
+            background: #f1f5f9;
+            border-radius: 10px;
+            padding: 4px 12px;
+            border: 1px solid #cbd5e1;
+            gap: 8px;
+        }
+
+        .input-group-custom label {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .input-group-custom input, .input-group-custom select {
+            border: none;
+            background: transparent;
+            font-family: inherit;
+            font-size: 13px;
+            font-weight: 600;
+            color: var(--text-main);
+            outline: none;
+            padding: 4px 2px;
+            cursor: pointer;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: 10px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+            text-decoration: none;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, #0b2545 0%, #134074 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(11, 37, 69, 0.25);
+        }
+        .btn-primary:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(11, 37, 69, 0.35);
+        }
+
+        .btn-teams {
+            background: linear-gradient(135deg, #464EB8 0%, #5B63D3 100%);
+            color: #ffffff;
+            box-shadow: 0 4px 12px rgba(70, 78, 184, 0.3);
+        }
+        .btn-teams:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 6px 16px rgba(70, 78, 184, 0.4);
+        }
+
+        .btn-outline {
+            background: #ffffff;
+            border: 1px solid #cbd5e1;
+            color: var(--text-main);
+        }
+        .btn-outline:hover {
+            background: #f8fafc;
+            border-color: #94a3b8;
+        }
+
+        /* ================= REPORT CARD CONTAINER ================= */
+        #report-card {
+            width: 1200px;
+            background: #ffffff;
+            border-radius: 20px;
+            padding: 28px;
+            box-shadow: var(--shadow-float);
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            position: relative;
+        }
+
+        /* Header */
+        .report-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 18px;
+            border-bottom: 2px solid #f1f5f9;
+        }
+
+        .header-brand {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .header-brand img {
+            height: 44px;
+            object-fit: contain;
+        }
+
+        .brand-text h1 {
+            font-size: 20px;
+            font-weight: 800;
+            color: var(--gy-blue);
+            letter-spacing: -0.5px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .brand-text p {
+            font-size: 13px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .header-meta {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .badge-shift {
+            background: #0b2545;
+            color: #ffffff;
+            padding: 6px 14px;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .badge-time {
+            background: #f1f5f9;
+            color: #334155;
+            border: 1px solid #cbd5e1;
+            padding: 6px 12px;
+            border-radius: 8px;
+            font-size: 12px;
+            font-weight: 700;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* 3-Column Metrics Grid */
+        .metrics-row {
+            display: grid;
+            grid-template-columns: 1.15fr 0.85fr 1fr;
+            gap: 18px;
+        }
+
+        .metric-card {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .card-header-custom {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .card-header-custom h2 {
+            font-size: 13px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--gy-blue);
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-header-custom .badge-kpi {
+            font-size: 11px;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            background: #e2e8f0;
+            color: #1e293b;
+        }
+
+        /* Section 1: Input / Output */
+        .io-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .io-subcard {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 12px 14px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .io-subcard.highlight {
+            border-left: 4px solid var(--indigo);
+        }
+        .io-subcard.success {
+            border-left: 4px solid var(--green);
+        }
+        .io-subcard.warning {
+            border-left: 4px solid var(--orange);
+        }
+
+        .subcard-label {
+            font-size: 11px;
+            font-weight: 700;
+            color: var(--text-muted);
+            text-transform: uppercase;
+        }
+
+        .subcard-val {
+            font-size: 22px;
+            font-weight: 800;
+            color: var(--text-main);
+            font-family: 'JetBrains Mono', monospace;
+            line-height: 1.1;
+        }
+
+        .subcard-sub {
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        .io-output-split {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 10px 14px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        /* Section 2: Cranes */
+        .crane-box {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .crane-avail-badge {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .crane-avail-val {
+            font-size: 24px;
+            font-weight: 800;
+            color: var(--green);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .top-crane-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .crane-item {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .crane-name {
+            font-size: 12px;
+            font-weight: 700;
+            color: var(--text-main);
+        }
+
+        .crane-dt {
+            font-size: 12px;
+            font-weight: 800;
+            color: var(--red);
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        /* Section 3: Press Delivery */
+        .press-summary-list {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .press-item {
+            background: #ffffff;
+            border-radius: 10px;
+            padding: 8px 12px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .press-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 12px;
+        }
+
+        .press-group-name {
+            font-weight: 800;
+            color: var(--gy-blue);
+        }
+
+        .press-pct {
+            font-weight: 800;
+            font-family: 'JetBrains Mono', monospace;
+        }
+
+        .progress-bar-bg {
+            height: 6px;
+            background: #e2e8f0;
+            border-radius: 999px;
+            overflow: hidden;
+            display: flex;
+        }
+
+        .progress-bar-fill {
+            height: 100%;
+            background: var(--green);
+            border-radius: 999px;
+        }
+
+        .press-meta-counts {
+            display: flex;
+            justify-content: space-between;
+            font-size: 10.5px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* ================= SECTION 4: ORDERS TABLE ================= */
+        .orders-section {
+            background: #f8fafc;
+            border-radius: 16px;
+            padding: 18px;
+            border: 1px solid #e2e8f0;
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .orders-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 12px;
+            background: #ffffff;
+            border-radius: 12px;
+            overflow: hidden;
+            border: 1px solid #e2e8f0;
+        }
+
+        .orders-table th {
+            background: #f1f5f9;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            font-size: 10.5px;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+            padding: 10px 14px;
+            text-align: left;
+            border-bottom: 1px solid #cbd5e1;
+        }
+
+        .orders-table td {
+            padding: 10px 14px;
+            border-bottom: 1px solid #f1f5f9;
+            color: var(--text-main);
+            vertical-align: middle;
+        }
+
+        .orders-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .badge-ot {
+            background: #0b2545;
+            color: #ffffff;
+            font-family: 'JetBrains Mono', monospace;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 11px;
+            display: inline-block;
+        }
+
+        .badge-bd-yes {
+            background: #fee2e2;
+            color: #b91c1c;
+            font-weight: 800;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .badge-bd-no {
+            background: #dcfce7;
+            color: #15803d;
+            font-weight: 700;
+            padding: 3px 8px;
+            border-radius: 6px;
+            font-size: 10.5px;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        /* Footer */
+        .report-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 14px;
+            border-top: 1px solid #f1f5f9;
+            font-size: 11px;
+            color: var(--text-muted);
+            font-weight: 600;
+        }
+
+        /* Toast notification */
+        #toast {
+            position: fixed;
+            bottom: 30px;
+            background: #0f172a;
+            color: #ffffff;
+            padding: 12px 24px;
+            border-radius: 12px;
+            font-size: 14px;
+            font-weight: 700;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transform: translateY(100px);
+            opacity: 0;
+            transition: all 0.3s ease;
+            z-index: 9999;
+        }
+
+        #toast.show {
+            transform: translateY(0);
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Top Action Bar -->
+    <div class="action-toolbar">
+        <div class="controls-left">
+            <div class="input-group-custom">
+                <i class="fa-regular fa-calendar text-muted"></i>
+                <label>Fecha:</label>
+                <input type="text" id="fecha-input" placeholder="YYYY-MM-DD">
+            </div>
+
+            <div class="input-group-custom">
+                <i class="fa-solid fa-clock-rotate-left text-muted"></i>
+                <label>Turno:</label>
+                <select id="turno-select">
+                    <option value="T2">Turno Mañana (06:00 - 14:00)</option>
+                    <option value="T3">Turno Tarde (14:00 - 22:00)</option>
+                    <option value="T1">Turno Noche (22:00 - 06:00)</option>
+                </select>
+            </div>
+
+            <button class="btn btn-outline" id="btn-refresh" onclick="cargarDatos()">
+                <i class="fa-solid fa-rotate"></i> Actualizar
+            </button>
+        </div>
+
+        <div class="controls-right" style="display: flex; gap: 10px;">
+            <button class="btn btn-teams" id="btn-copy-img" onclick="copiarImagenTeams()">
+                <i class="fa-solid fa-camera"></i> Copiar Imagen para Teams
+            </button>
+            <button class="btn btn-primary" id="btn-download-img" onclick="descargarImagen()">
+                <i class="fa-solid fa-download"></i> Descargar PNG
+            </button>
+            <button class="btn btn-outline" id="btn-copy-text" onclick="copiarTextoResumen()">
+                <i class="fa-solid fa-copy"></i> Copiar Texto
+            </button>
+        </div>
+    </div>
+
+    <!-- ================= REPORT CARD TO EXPORT ================= -->
+    <div id="report-card">
+        <!-- Header -->
+        <div class="report-header">
+            <div class="header-brand">
+                <img src="logo-goodyear.png" alt="Goodyear" onerror="this.style.display='none'">
+                <div class="brand-text">
+                    <h1><i class="fa-solid fa-warehouse" style="color: var(--gy-yellow);"></i> CONSOLIDADO ENTREGA DE TURNO - ASRS</h1>
+                    <p>Automated Storage & Retrieval System • Reliability & Operations Report</p>
+                </div>
+            </div>
+            <div class="header-meta">
+                <div class="badge-shift" id="lbl-shift-badge">
+                    <i class="fa-solid fa-sun"></i> <span id="lbl-turno-nombre">Turno Mañana (T2)</span>
+                </div>
+                <div class="badge-time" id="lbl-rango-horas">
+                    06:00 - 14:00
+                </div>
+            </div>
+        </div>
+
+        <!-- Metrics Row -->
+        <div class="metrics-row">
+            <!-- Col 1: INPUT / OUTPUT -->
+            <div class="metric-card">
+                <div class="card-header-custom">
+                    <h2><i class="fa-solid fa-arrow-right-arrow-left" style="color: var(--indigo);"></i> Flujo / Input & Output</h2>
+                    <span class="badge-kpi" id="lbl-eficiencia-badge">Efic: 77.86%</span>
+                </div>
+
+                <div class="io-grid">
+                    <div class="io-subcard highlight">
+                        <span class="subcard-label">Construido</span>
+                        <span class="subcard-val" id="val-construido">2.583</span>
+                        <span class="subcard-sub">tires</span>
+                    </div>
+                    <div class="io-subcard highlight">
+                        <span class="subcard-label">Vulcanizado</span>
+                        <span class="subcard-val" id="val-vulcanizado">2.753</span>
+                        <span class="subcard-sub">tires</span>
+                    </div>
+                </div>
+
+                <div class="io-grid">
+                    <div class="io-subcard success">
+                        <span class="subcard-label">Entrada ASRS</span>
+                        <span class="subcard-val" id="val-entrada">2.011</span>
+                        <span class="subcard-sub">Rate: <b id="val-rate-in">6.7</b> t/m</span>
+                    </div>
+                    <div class="io-subcard warning">
+                        <span class="subcard-label">Total Salida</span>
+                        <span class="subcard-val" id="val-total-salida">2.464</span>
+                        <span class="subcard-sub">Rate: <b id="val-rate-out">8.17</b> t/m</span>
+                    </div>
+                </div>
+
+                <div class="io-output-split">
+                    <div>
+                        <span class="subcard-label">Manual</span>
+                        <div style="font-weight: 800; font-size: 15px; font-family: 'JetBrains Mono', monospace; color: #b45309;" id="val-manual">1.693 tires</div>
+                        <span style="font-size: 10px; color: var(--text-muted);">Rate: <b id="val-rate-man">5.60</b></span>
+                    </div>
+                    <div style="text-align: right;">
+                        <span class="subcard-label">Automático</span>
+                        <div style="font-weight: 800; font-size: 15px; font-family: 'JetBrains Mono', monospace; color: #047857;" id="val-auto">771 tires</div>
+                        <span style="font-size: 10px; color: var(--text-muted);">Rate: <b id="val-rate-auto">2.57</b></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Col 2: CRANE & CONVEYOR PERFORMANCE -->
+            <div class="metric-card">
+                <div class="card-header-custom">
+                    <h2><i class="fa-solid fa-dolly" style="color: var(--gy-blue);"></i> Crane Performance</h2>
+                    <span class="badge-kpi" id="lbl-crane-disp">Disp: 84.79%</span>
+                </div>
+
+                <div class="crane-avail-badge">
+                    <div>
+                        <span class="subcard-label">Disponibilidad Global</span>
+                        <div style="font-size: 11px; color: var(--text-muted);">11 Pasillos ASRS</div>
+                    </div>
+                    <span class="crane-avail-val" id="val-crane-disp">84.79%</span>
+                </div>
+
+                <div class="crane-box">
+                    <span class="subcard-label">Top 3 Pasillos con Downtime</span>
+                    <div class="top-crane-list" id="crane-top-list">
+                        <div class="crane-item">
+                            <span class="crane-name">Pasillo 4</span>
+                            <span class="crane-dt">361 min (75.1%)</span>
+                        </div>
+                        <div class="crane-item">
+                            <span class="crane-name">Pasillo 1</span>
+                            <span class="crane-dt">110 min (22.9%)</span>
+                        </div>
+                        <div class="crane-item">
+                            <span class="crane-name">Pasillo 2</span>
+                            <span class="crane-dt">110 min (22.9%)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div style="background:#ffffff; border-radius:10px; padding:8px 12px; border:1px solid #e2e8f0; display:flex; justify-content:space-between; align-items:center;">
+                    <div>
+                        <span class="subcard-label">Conveyor Downtime</span>
+                        <div style="font-size:11px; font-weight:700; color:var(--text-main);" id="lbl-conveyor-dt">49.87 min (41 eventos)</div>
+                    </div>
+                    <span class="badge-kpi" style="color:#b91c1c; background:#fee2e2;" id="lbl-conveyor-status">Obj: 15m</span>
+                </div>
+            </div>
+
+            <!-- Col 3: PRESS DELIVERY -->
+            <div class="metric-card">
+                <div class="card-header-custom">
+                    <h2><i class="fa-solid fa-robot" style="color: var(--green);"></i> Press Delivery</h2>
+                    <span class="badge-kpi" id="lbl-press-global">Cumpl: 28.68%</span>
+                </div>
+
+                <div class="press-summary-list" id="press-list">
+                    <!-- Dynamic Press Items -->
+                    <div class="press-item">
+                        <div class="press-header-row">
+                            <span class="press-group-name">400B</span>
+                            <span class="press-pct" style="color: #ef4444;">0.0%</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 0%; background:#ef4444;"></div></div>
+                        <div class="press-meta-counts">
+                            <span>Robot: <b>0</b></span>
+                            <span>Manual: <b>457</b></span>
+                            <span>Total: <b>457</b></span>
+                        </div>
+                    </div>
+                    <div class="press-item">
+                        <div class="press-header-row">
+                            <span class="press-group-name">500A</span>
+                            <span class="press-pct" style="color: #10b981;">42.1%</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 42.1%;"></div></div>
+                        <div class="press-meta-counts">
+                            <span>Robot: <b>153</b></span>
+                            <span>Manual: <b>210</b></span>
+                            <span>Total: <b>363</b></span>
+                        </div>
+                    </div>
+                    <div class="press-item">
+                        <div class="press-header-row">
+                            <span class="press-group-name">500B</span>
+                            <span class="press-pct" style="color: #10b981;">39.7%</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 39.7%;"></div></div>
+                        <div class="press-meta-counts">
+                            <span>Robot: <b>135</b></span>
+                            <span>Manual: <b>205</b></span>
+                            <span>Total: <b>340</b></span>
+                        </div>
+                    </div>
+                    <div class="press-item">
+                        <div class="press-header-row">
+                            <span class="press-group-name">600A</span>
+                            <span class="press-pct" style="color: #10b981;">32.7%</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 32.7%;"></div></div>
+                        <div class="press-meta-counts">
+                            <span>Robot: <b>132</b></span>
+                            <span>Manual: <b>272</b></span>
+                            <span>Total: <b>404</b></span>
+                        </div>
+                    </div>
+                    <div class="press-item">
+                        <div class="press-header-row">
+                            <span class="press-group-name">600B</span>
+                            <span class="press-pct" style="color: #10b981;">36.1%</span>
+                        </div>
+                        <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: 36.1%;"></div></div>
+                        <div class="press-meta-counts">
+                            <span>Robot: <b>139</b></span>
+                            <span>Manual: <b>246</b></span>
+                            <span>Total: <b>385</b></span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Section 4: Orders Table -->
+        <div class="orders-section">
+            <div class="card-header-custom">
+                <h2><i class="fa-solid fa-wrench" style="color: var(--orange);"></i> Novedades y Órdenes Correctivas del Turno</h2>
+                <span class="badge-kpi" id="lbl-total-orders">1 Órdenes Registradas</span>
+            </div>
+
+            <table class="orders-table">
+                <thead>
+                    <tr>
+                        <th style="width: 100px;">N° OT</th>
+                        <th style="width: 90px;">Hora</th>
+                        <th style="width: 160px;">Equipo / Máquina</th>
+                        <th>Título / Problema</th>
+                        <th style="width: 100px; text-align: center;">Tiempo (TP)</th>
+                        <th style="width: 120px; text-align: center;">Breakdown</th>
+                        <th>Detalle Intervención</th>
+                    </tr>
+                </thead>
+                <tbody id="orders-tbody">
+                    <tr>
+                        <td><span class="badge-ot">7596476</span></td>
+                        <td style="font-family: 'JetBrains Mono', monospace; font-weight:700;">07:33:10</td>
+                        <td><b>L504-Z13-MOTOPOLIN</b><br><span style="font-size:10px; color:var(--text-muted);">Z13 MOTOPOLIN</span></td>
+                        <td>Tarjeta CV bypass</td>
+                        <td style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight:700;">0 min</td>
+                        <td style="text-align: center;"><span class="badge-bd-no"><i class="fa-solid fa-circle-check"></i> NO</span></td>
+                        <td style="font-size:11px; color:var(--text-muted);">Sin impacto en parada de línea general.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Footer -->
+        <div class="report-footer">
+            <span>Goodyear Chile • Automated Storage and Retrieval System (ASRS)</span>
+            <span id="lbl-generated-at">Generado: 16/09/2026 12:15:00</span>
+        </div>
+    </div>
+
+    <!-- Toast -->
+    <div id="toast"><i class="fa-solid fa-circle-check" style="color: var(--green);"></i> <span id="toast-msg">Mensaje</span></div>
+
+    <script>
+        let currentData = null;
+
+        // Init Flatpickr
+        const fp = flatpickr("#fecha-input", {
+            dateFormat: "Y-m-d",
+            defaultDate: new Date(),
+            onChange: function() {
+                cargarDatos();
+            }
+        });
+
+        document.getElementById('turno-select').addEventListener('change', cargarDatos);
+
+        function showToast(msg) {
+            const t = document.getElementById('toast');
+            document.getElementById('toast-msg').innerText = msg;
+            t.classList.add('show');
+            setTimeout(() => t.classList.remove('show'), 3500);
+        }
+
+        async function cargarDatos() {
+            const fecha = document.getElementById('fecha-input').value || new Date().toISOString().split('T')[0];
+            const turno = document.getElementById('turno-select').value || 'T2';
+
+            try {
+                const res = await fetch(`/api/consolidado-turno?fecha=${fecha}&turno=${turno}`);
+                if (!res.ok) throw new Error("Error en respuesta del servidor");
+                currentData = await res.json();
+                renderReport(currentData);
+                showToast("Datos actualizados correctamente.");
+            } catch (err) {
+                console.error(err);
+                showToast("Error al cargar datos desde el backend.");
+            }
+        }
+
+        function renderReport(data) {
+            if (!data) return;
+            const c = data.consulta;
+            const io = data.input_output;
+            const cr = data.crane_performance;
+            const pr = data.press_delivery;
+            const co = data.conveyor;
+            const ord = data.ordenes || [];
+
+            // Meta Header
+            document.getElementById('lbl-turno-nombre').innerText = c.turno_nombre;
+            document.getElementById('lbl-rango-horas').innerText = `${c.fecha} (${c.rango_horas})`;
+            document.getElementById('lbl-generated-at').innerText = `Generado: ${c.timestamp_generacion}`;
+
+            // IO
+            document.getElementById('val-construido').innerText = io.construido;
+            document.getElementById('val-vulcanizado').innerText = io.vulcanizado;
+            document.getElementById('val-entrada').innerText = io.entrada_asrs;
+            document.getElementById('val-rate-in').innerText = io.rate_entrada;
+            document.getElementById('val-total-salida').innerText = io.total_salida;
+            document.getElementById('val-rate-out').innerText = io.rate_salida;
+            document.getElementById('val-manual').innerText = `${io.salida_manual} tires`;
+            document.getElementById('val-rate-man').innerText = io.rate_manual;
+            document.getElementById('val-auto').innerText = `${io.salida_auto} tires`;
+            document.getElementById('val-rate-auto').innerText = io.rate_auto;
+            document.getElementById('lbl-eficiencia-badge').innerText = `Efic: ${io.eficiencia_entrada}%`;
+
+            // Cranes
+            document.getElementById('val-crane-disp').innerText = `${cr.disponibilidad_pct}%`;
+            document.getElementById('lbl-crane-disp').innerText = `Disp: ${cr.disponibilidad_pct}%`;
+
+            const topCraneList = document.getElementById('crane-top-list');
+            topCraneList.innerHTML = '';
+            if (cr.top_downtime && cr.top_downtime.length > 0) {
+                cr.top_downtime.forEach(item => {
+                    topCraneList.innerHTML += `
+                        <div class="crane-item">
+                            <span class="crane-name">Pasillo ${item.aisle}</span>
+                            <span class="crane-dt">${item.downtime_minutes} min (${item.downtime_percent}%)</span>
+                        </div>
+                    `;
+                });
+            } else {
+                topCraneList.innerHTML = '<div style="font-size:12px; color:var(--text-muted); text-align:center; padding:10px;">Sin paradas registradas</div>';
+            }
+
+            // Conveyor
+            document.getElementById('lbl-conveyor-dt').innerText = `${co.downtime_min} min (${co.frecuencia} eventos)`;
+
+            // Presses
+            document.getElementById('lbl-press-global').innerText = `Cumpl: ${pr.cumplimiento_global_pct}%`;
+            const pressList = document.getElementById('press-list');
+            pressList.innerHTML = '';
+            if (pr.resumen_prensas && pr.resumen_prensas.length > 0) {
+                pr.resumen_prensas.forEach(p => {
+                    const color = p.pct > 35 ? '#10b981' : (p.pct > 15 ? '#f59e0b' : '#ef4444');
+                    pressList.innerHTML += `
+                        <div class="press-item">
+                            <div class="press-header-row">
+                                <span class="press-group-name">${p.press}</span>
+                                <span class="press-pct" style="color: ${color};">${p.pct}%</span>
+                            </div>
+                            <div class="progress-bar-bg"><div class="progress-bar-fill" style="width: ${p.pct}%; background:${color};"></div></div>
+                            <div class="press-meta-counts">
+                                <span>Robot: <b>${p.delivered_robot}</b></span>
+                                <span>Manual: <b>${p.manual}</b></span>
+                                <span>Total: <b>${p.vulcanized}</b></span>
+                            </div>
+                        </div>
+                    `;
+                });
+            }
+
+            // Orders Table
+            document.getElementById('lbl-total-orders').innerText = `${ord.length} Órdenes Registradas`;
+            const tbody = document.getElementById('orders-tbody');
+            tbody.innerHTML = '';
+            if (ord.length > 0) {
+                ord.forEach(o => {
+                    const bdBadge = o.breakdown 
+                        ? `<span class="badge-bd-yes"><i class="fa-solid fa-triangle-exclamation"></i> SÍ</span>`
+                        : `<span class="badge-bd-no"><i class="fa-solid fa-circle-check"></i> NO</span>`;
+                    tbody.innerHTML += `
+                        <tr>
+                            <td><span class="badge-ot">${o.ot}</span></td>
+                            <td style="font-family: 'JetBrains Mono', monospace; font-weight:700;">${o.hora}</td>
+                            <td><b>${o.maquina || o.equipo}</b><br><span style="font-size:10px; color:var(--text-muted);">${o.equipo}</span></td>
+                            <td><b>${o.titulo}</b></td>
+                            <td style="text-align: center; font-family: 'JetBrains Mono', monospace; font-weight:700;">${o.tp_min} min</td>
+                            <td style="text-align: center;">${bdBadge}</td>
+                            <td style="font-size:11px; color:var(--text-muted);">${o.detalle || '-'}</td>
+                        </tr>
+                    `;
+                });
+            } else {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="7" style="text-align:center; padding:20px; color:var(--text-muted);">
+                            <i class="fa-solid fa-circle-check" style="color:var(--green); font-size:18px;"></i><br>
+                            Sin eventos correctivos reportados en este turno.
+                        </td>
+                    </tr>
+                `;
+            }
+        }
+
+        async function copiarImagenTeams() {
+            showToast("Generando captura en alta resolución...");
+            const card = document.getElementById('report-card');
+            
+            try {
+                const canvas = await html2canvas(card, {
+                    scale: 2,
+                    useCORS: true,
+                    backgroundColor: '#ffffff'
+                });
+
+                canvas.toBlob(async function(blob) {
+                    try {
+                        const item = new ClipboardItem({ "image/png": blob });
+                        await navigator.clipboard.write([item]);
+                        showToast("✅ ¡Imagen copiada al portapapeles! Ya puedes pegarla en Teams con Ctrl+V.");
+                    } catch (err) {
+                        console.error("Clipboard write error:", err);
+                        descargarImagen();
+                        showToast("⚠️ Portapapeles bloqueado por navegador. Se descargó el PNG automáticamente.");
+                    }
+                }, "image/png");
+            } catch (e) {
+                console.error(e);
+                showToast("Error al capturar la imagen.");
+            }
+        }
+
+        async function descargarImagen() {
+            showToast("Exportando imagen...");
+            const card = document.getElementById('report-card');
+            const fecha = document.getElementById('fecha-input').value || 'reporte';
+            const turno = document.getElementById('turno-select').value || 'T';
+
+            const canvas = await html2canvas(card, {
+                scale: 2,
+                useCORS: true,
+                backgroundColor: '#ffffff'
+            });
+
+            const link = document.createElement('a');
+            link.download = `Reporte_ASRS_${fecha}_${turno}.png`;
+            link.href = canvas.toDataURL('image/png');
+            link.click();
+            showToast("✅ Archivo PNG descargado.");
+        }
+
+        function copiarTextoResumen() {
+            if (!currentData) return;
+            const c = currentData.consulta;
+            const io = currentData.input_output;
+            const cr = currentData.crane_performance;
+            const pr = currentData.press_delivery;
+            const ord = currentData.ordenes || [];
+
+            let text = `*REPORTE CONSOLIDADO ASRS - ${c.turno_nombre.toUpperCase()}*\n`;
+            text += `Fecha: ${c.fecha} (${c.rango_horas})\n\n`;
+            text += `*1. PRODUCCIÓN & FLUJO*\n`;
+            text += `• Construido: ${io.construido} | Vulcanizado: ${io.vulcanizado}\n`;
+            text += `• Entrada ASRS: ${io.entrada_asrs} (Eficiencia: ${io.eficiencia_entrada}%)\n`;
+            text += `• Salida Total: ${io.total_salida} (Automático: ${io.salida_auto} | Manual: ${io.salida_manual})\n\n`;
+            text += `*2. CRANES (Disp: ${cr.disponibilidad_pct}%)*\n`;
+            cr.top_downtime.forEach(item => {
+                text += `• Pasillo ${item.aisle}: ${item.downtime_minutes}m (${item.downtime_percent}%)\n`;
+            });
+            text += `\n*3. PRESS DELIVERY (Cumplimiento: ${pr.cumplimiento_global_pct}%)*\n`;
+            pr.resumen_prensas.forEach(p => {
+                text += `• ${p.press}: ${p.pct}% (Robot: ${p.delivered_robot} | Manual: ${p.manual} | Vulc: ${p.vulcanized})\n`;
+            });
+            text += `\n*4. NOVEDADES & ÓRDENES CORRECTIVAS (${ord.length})*\n`;
+            if (ord.length > 0) {
+                ord.forEach(o => {
+                    text += `• OT ${o.ot} | ${o.titulo} (${o.maquina}) | ${o.hora} | TP: ${o.tp_min}m | BD: ${o.breakdown ? 'SÍ' : 'NO'}\n`;
+                });
+            } else {
+                text += `• Sin eventos correctivos reportados.\n`;
+            }
+
+            navigator.clipboard.writeText(text).then(() => {
+                showToast("✅ Texto resumen copiado al portapapeles.");
+            });
+        }
+
+        // Auto load on startup
+        window.addEventListener('DOMContentLoaded', () => {
+            cargarDatos();
+        });
+    </script>
+</body>
+</html>
