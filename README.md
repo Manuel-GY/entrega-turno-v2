@@ -1,6 +1,6 @@
-# 📊 Entrega de Turno ASRS v2
+# 📊 Entrega de turno ASRS - CONSOLIDADO ENTREGA DE TURNO - ASRS
 
-Aplicación web y generador visual para la **Entrega Consolidada de Turnos del ASRS (Automated Storage and Retrieval System)** en Goodyear Chile.
+Aplicación web y generador visual para la **Entrega Consolidada de Turnos del ASRS (Automated Storage and Retrieval System)** en Goodyear Chile, desarrollada bajo los lineamientos oficiales de la guía de marca **Goodyear Brand Guidelines (Marzo 2026)**.
 
 Integra en una única tarjeta visual de alta resolución los datos operativos del **Dashboard ASRS** y los registros de fallas/intervenciones de **Inspecciones y Órdenes Correctivas**. Diseñado específicamente para exportar imágenes listas para enviar por **Microsoft Teams** o correo.
 
