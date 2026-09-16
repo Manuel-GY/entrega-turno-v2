@@ -177,16 +177,16 @@ def api_consolidado_turno():
                     seen_ots.add(ot)
                     # Check historic data if available
                     h_info = hist_map.get(ot, {})
-                    tp_val = float(tp) if tp and str(tp).replace('.', '', 1).isdigit() else 0.0
-                    is_breakdown = tp_val > 0 or any(k in (desc + det).lower() for k in ["detencion", "detenido", "parada", "paro", "choque", "falla"])
+                    detalle_clean = (det or desc or h_info.get("detalle", "") or "").strip()
+                    titulo_clean = h_info.get("titulo", desc if desc else "Intervención técnica").strip()
                     filtered_orders.append({
                         "ot": ot,
                         "hora": h_str,
                         "fecha": f_str,
                         "equipo": eq or h_info.get("equipo", maq),
                         "maquina": maq or h_info.get("maquina", ""),
-                        "titulo": h_info.get("titulo", desc if desc else "Intervención correctiva"),
-                        "detalle": det or desc or h_info.get("detalle", ""),
+                        "titulo": titulo_clean,
+                        "detalle": detalle_clean if detalle_clean else titulo_clean,
                         "tp_min": tp_val,
                         "autor": h_info.get("autor", "-"),
                         "tipo": h_info.get("tipo", "-"),

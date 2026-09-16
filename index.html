@@ -863,11 +863,11 @@
                         <tr>
                             <td><span class="badge-ot">7596476</span></td>
                             <td style="font-family: var(--font-mono); font-weight:700;">07:33:10</td>
-                            <td><b>L504-Z13-MOTOPOLIN</b><br><span style="font-size:10px; color:var(--goodyear-dark-gray);">Z13 MOTOPOLIN</span></td>
-                            <td>Tarjeta CV bypass</td>
+                            <td><b>L504-Z13-MOTOPOLIN</b><br><span style="font-size:11px; color:var(--goodyear-black); font-weight:600;">CONVEYOR MOTOPOLIN ZONA 13</span></td>
+                            <td><b>Tarjeta CV bypass</b></td>
                             <td style="text-align: center; font-family: var(--font-mono); font-weight:700;">0 min</td>
                             <td style="text-align: center;"><span class="badge-bd-no"><i class="fa-solid fa-circle-check"></i> NO</span></td>
-                            <td style="font-size:11px; color:var(--goodyear-dark-gray);">Sin impacto en parada de línea general.</td>
+                            <td style="font-size:13px; color:var(--goodyear-black); font-weight:500;">Intervención técnica en tarjeta bypass de Zona 13 (sin impacto en parada de línea).</td>
                         </tr>
                     </tbody>
                 </table>
@@ -1005,11 +1005,11 @@
                         <tr>
                             <td><span class="badge-ot">${o.ot}</span></td>
                             <td style="font-family: var(--font-mono); font-weight:700;">${o.hora}</td>
-                            <td><b>${o.maquina || o.equipo}</b><br><span style="font-size:10px; color:var(--goodyear-dark-gray);">${o.equipo}</span></td>
+                            <td><b>${o.maquina || o.equipo}</b><br><span style="font-size:11px; color:var(--goodyear-black); font-weight:600;">${o.equipo}</span></td>
                             <td><b>${o.titulo}</b></td>
                             <td style="text-align: center; font-family: var(--font-mono); font-weight:700;">${o.tp_min} min</td>
                             <td style="text-align: center;">${bdBadge}</td>
-                            <td style="font-size:11px; color:var(--goodyear-dark-gray);">${o.detalle || '-'}</td>
+                            <td style="font-size:13px; color:var(--goodyear-black); font-weight:500;">${o.detalle || o.titulo || 'Sin observaciones adicionales registradas.'}</td>
                         </tr>
                     `;
                 });
