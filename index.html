@@ -160,7 +160,7 @@
 
         /* ================= REPORT CARD CONTAINER ================= */
         #report-card {
-            width: 1150px;
+            width: 980px;
             background: var(--goodyear-white);
             border-radius: 8px;
             overflow: hidden;
@@ -175,23 +175,23 @@
         .report-header-banner {
             background-color: var(--goodyear-racing-navy);
             color: var(--goodyear-white);
-            padding: 18px 28px;
+            padding: 16px 24px;
             display: flex;
             align-items: center;
             justify-content: space-between;
-            gap: 20px;
+            gap: 18px;
             border-bottom: 4px solid var(--goodyear-trophy-gold);
         }
 
         .header-brand {
             display: flex;
             align-items: center;
-            gap: 20px;
+            gap: 18px;
             flex-shrink: 0;
         }
 
         .header-brand img {
-            height: 42px;
+            height: 44px;
             width: auto;
             object-fit: contain;
             filter: none;
@@ -200,13 +200,13 @@
         .brand-text {
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
 
         .main-headline {
             font-family: var(--font-body);
             font-weight: 800;
-            font-size: 23px;
+            font-size: 25px;
             color: #FFFFFF;
             letter-spacing: 0.5px;
             line-height: 1.1;
@@ -235,10 +235,10 @@
             background: rgba(255, 255, 255, 0.08);
             color: var(--goodyear-trophy-gold);
             border: 1px solid rgba(251, 189, 0, 0.4);
-            padding: 0 18px;
+            padding: 0 16px;
             border-radius: 4px;
-            font-size: 13.5px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
             display: flex;
@@ -252,10 +252,10 @@
             background: #FFFFFF;
             color: var(--goodyear-racing-navy);
             border: 1px solid #CBD5E1;
-            padding: 0 16px;
+            padding: 0 15px;
             border-radius: 4px;
-            font-size: 13px;
-            font-weight: 700;
+            font-size: 14px;
+            font-weight: 800;
             font-family: var(--font-mono);
             display: flex;
             align-items: center;
@@ -265,18 +265,18 @@
 
         /* Inner Content Body */
         .card-body-content {
-            padding: 24px 28px;
+            padding: 18px 20px;
             display: flex;
             flex-direction: column;
-            gap: 20px;
+            gap: 16px;
             background: #FAFAFA;
         }
 
         /* 3-Column Metrics Grid */
         .metrics-row {
             display: grid;
-            grid-template-columns: 1.15fr 0.85fr 1fr;
-            gap: 18px;
+            grid-template-columns: 1.18fr 0.85fr 0.97fr;
+            gap: 14px;
         }
 
         .metric-card {
@@ -284,10 +284,10 @@
             border: 1px solid var(--card-border);
             border-top: 3px solid #64748B;
             border-radius: 4px;
-            padding: 18px;
+            padding: 16px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
             box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
@@ -299,11 +299,11 @@
 
         .card-header-custom h2 {
             font-family: var(--font-body);
-            font-size: 14.5px;
+            font-size: 15.5px;
             font-weight: 800;
             text-transform: uppercase;
             letter-spacing: 0.5px;
-            color: #334155;
+            color: #1E293B;
             display: flex;
             align-items: center;
             gap: 8px;
@@ -316,12 +316,12 @@
 
         .card-header-custom .badge-kpi {
             font-family: var(--font-mono);
-            font-size: 11.5px;
+            font-size: 12.5px;
             font-weight: 700;
             padding: 3px 9px;
             border-radius: 3px;
             background: #F1F5F9;
-            color: #475569;
+            color: #334155;
             border: 1px solid #CBD5E1;
         }
 
@@ -329,17 +329,17 @@
         .io-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 12px;
+            gap: 10px;
         }
 
         .io-subcard {
             background: #F8FAFC;
-            padding: 12px 14px;
+            padding: 10px 12px;
             border: 1px solid var(--card-border);
             border-radius: 4px;
             display: flex;
             flex-direction: column;
-            gap: 3px;
+            gap: 2px;
         }
 
         .io-subcard.highlight {
@@ -353,7 +353,7 @@
         }
 
         .subcard-label {
-            font-size: 11.5px;
+            font-size: 12px;
             font-weight: 700;
             color: #64748B;
             text-transform: uppercase;
@@ -361,22 +361,22 @@
         }
 
         .subcard-val {
-            font-size: 26px;
+            font-size: 30px;
             font-weight: 800;
-            color: #1E293B;
+            color: #0B1D45;
             font-family: var(--font-mono);
             line-height: 1.1;
         }
 
         .subcard-sub {
-            font-size: 12px;
+            font-size: 13px;
             color: var(--goodyear-dark-gray);
             font-weight: 600;
         }
 
         .io-output-split {
             background: #F8FAFC;
-            padding: 12px 14px;
+            padding: 10px 12px;
             border: 1px solid var(--card-border);
             border-radius: 4px;
             display: flex;
@@ -394,7 +394,7 @@
         .crane-avail-badge {
             background: var(--goodyear-racing-navy);
             color: var(--goodyear-white);
-            padding: 12px 16px;
+            padding: 10px 14px;
             border-radius: 4px;
             display: flex;
             align-items: center;
@@ -402,7 +402,7 @@
         }
 
         .crane-avail-val {
-            font-size: 26px;
+            font-size: 28px;
             font-weight: 800;
             color: var(--goodyear-trophy-gold);
             font-family: var(--font-mono);
@@ -411,12 +411,12 @@
         .top-crane-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 7px;
         }
 
         .crane-item {
             background: #F8FAFC;
-            padding: 9px 14px;
+            padding: 8px 12px;
             border: 1px solid var(--card-border);
             border-radius: 4px;
             display: flex;
@@ -425,13 +425,13 @@
         }
 
         .crane-name {
-            font-size: 13.5px;
+            font-size: 14px;
             font-weight: 700;
             color: #334155;
         }
 
         .crane-dt {
-            font-size: 13px;
+            font-size: 13.5px;
             font-weight: 700;
             color: var(--status-red);
             font-family: var(--font-mono);
@@ -441,24 +441,24 @@
         .press-summary-list {
             display: flex;
             flex-direction: column;
-            gap: 8px;
+            gap: 7px;
         }
 
         .press-item {
             background: #F8FAFC;
-            padding: 9px 12px;
+            padding: 8px 11px;
             border: 1px solid var(--card-border);
             border-radius: 4px;
             display: flex;
             flex-direction: column;
-            gap: 4px;
+            gap: 3px;
         }
 
         .press-header-row {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            font-size: 13.5px;
+            font-size: 14px;
         }
 
         .press-group-name {
@@ -488,7 +488,7 @@
         .press-meta-counts {
             display: flex;
             justify-content: space-between;
-            font-size: 11.5px;
+            font-size: 12px;
             color: var(--goodyear-dark-gray);
             font-weight: 600;
         }
@@ -496,19 +496,19 @@
         /* ================= SECTION 4: ORDERS TABLE ================= */
         .orders-section {
             background: var(--goodyear-white);
-            padding: 18px;
+            padding: 16px;
             border: 1px solid var(--card-border);
             border-top: 3px solid #64748B;
             border-radius: 4px;
             display: flex;
             flex-direction: column;
-            gap: 14px;
+            gap: 12px;
         }
 
         .orders-table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 13px;
+            font-size: 13.5px;
             background: var(--goodyear-white);
             border: 1px solid var(--card-border);
             border-radius: 4px;
@@ -519,16 +519,16 @@
             background: #F8FAFC;
             color: #334155;
             text-transform: uppercase;
-            font-size: 11.5px;
+            font-size: 12px;
             font-weight: 800;
             letter-spacing: 0.5px;
-            padding: 11px 14px;
+            padding: 10px 12px;
             text-align: left;
             border-bottom: 2px solid #E2E8F0;
         }
 
         .orders-table td {
-            padding: 11px 14px;
+            padding: 10px 12px;
             border-bottom: 1px solid #F1F5F9;
             color: var(--goodyear-black);
             vertical-align: middle;
@@ -545,7 +545,7 @@
             font-weight: 700;
             padding: 4px 10px;
             border-radius: 4px;
-            font-size: 12px;
+            font-size: 12.5px;
             display: inline-block;
         }
 
@@ -555,7 +555,7 @@
             font-weight: 800;
             padding: 4px 10px;
             border-radius: 4px;
-            font-size: 11.5px;
+            font-size: 12px;
             display: inline-flex;
             align-items: center;
             gap: 4px;
@@ -568,29 +568,11 @@
             font-weight: 700;
             padding: 4px 10px;
             border-radius: 4px;
-            font-size: 11.5px;
+            font-size: 12px;
             display: inline-flex;
             align-items: center;
             gap: 4px;
             border: 1px solid #BBF7D0;
-        }
-            display: inline-flex;
-            align-items: center;
-            gap: 4px;
-            border: 1px solid #BBF7D0;
-        }
-
-        /* Footer */
-        .report-footer {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 12px 24px;
-            background: #F1F5F9;
-            border-top: 1px solid var(--card-border);
-            font-size: 11px;
-            color: var(--goodyear-dark-gray);
-            font-weight: 600;
         }
 
         /* Toast notification */
@@ -873,12 +855,6 @@
                 </table>
             </div>
         </div>
-
-        <!-- Footer -->
-        <div class="report-footer">
-            <span>Goodyear Chile • Automated Storage and Retrieval System (ASRS)</span>
-            <span id="lbl-generated-at">Generado: 16/09/2026 12:15:00</span>
-        </div>
     </div>
 
     <!-- Toast -->
@@ -933,7 +909,6 @@
             // Meta Header
             document.getElementById('lbl-turno-nombre').innerText = c.turno_nombre;
             document.getElementById('lbl-rango-horas').innerText = `${c.fecha} (${c.rango_horas})`;
-            document.getElementById('lbl-generated-at').innerText = `Generado: ${c.timestamp_generacion}`;
 
             // IO
             document.getElementById('val-construido').innerText = io.construido;
@@ -1034,8 +1009,7 @@
                     scale: 3,
                     useCORS: true,
                     backgroundColor: '#ffffff',
-                    logging: false,
-                    windowWidth: 1250
+                    logging: false
                 });
 
                 canvas.toBlob(async function(blob) {
@@ -1065,8 +1039,7 @@
                 scale: 3,
                 useCORS: true,
                 backgroundColor: '#ffffff',
-                logging: false,
-                windowWidth: 1250
+                logging: false
             });
 
             const link = document.createElement('a');
