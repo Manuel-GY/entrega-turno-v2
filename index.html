@@ -755,14 +755,6 @@
                             </div>
                         </div>
                     </div>
-
-                    <div style="background:#F8FAFC; padding:8px 12px; border:1px solid var(--card-border); border-radius:4px; display:flex; justify-content:space-between; align-items:center;">
-                        <div>
-                            <span class="subcard-label">Conveyor Downtime</span>
-                            <div style="font-size:11px; font-weight:700; color:var(--goodyear-black);" id="lbl-conveyor-dt">49.87 min (41 eventos)</div>
-                        </div>
-                        <span class="badge-kpi" style="color:var(--status-red); background:var(--status-red-bg); border-color:#FECACA;" id="lbl-conveyor-status">Obj: 15m</span>
-                    </div>
                 </div>
 
                 <!-- Col 3: PRESS DELIVERY -->
@@ -964,9 +956,6 @@
             } else {
                 topCraneList.innerHTML = '<div style="font-size:12px; color:var(--goodyear-dark-gray); text-align:center; padding:10px;">Sin paradas registradas</div>';
             }
-
-            // Conveyor
-            document.getElementById('lbl-conveyor-dt').innerText = `${co.downtime_min} min (${co.frecuencia} eventos)`;
 
             // Presses
             document.getElementById('lbl-press-global').innerText = `Cumpl: ${pr.cumplimiento_global_pct}%`;
