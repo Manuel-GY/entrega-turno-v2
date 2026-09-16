@@ -781,7 +781,7 @@
         <div class="orders-section">
             <div class="card-header-custom">
                 <h2><i class="fa-solid fa-wrench" style="color: var(--orange);"></i> Novedades y Órdenes Correctivas del Turno</h2>
-                <span class="badge-kpi" id="lbl-total-orders">1 Órdenes Registradas</span>
+                <span class="badge-kpi" id="lbl-total-orders">1 Orden Registrada</span>
             </div>
 
             <table class="orders-table">
@@ -931,7 +931,8 @@
             }
 
             // Orders Table
-            document.getElementById('lbl-total-orders').innerText = `${ord.length} Órdenes Registradas`;
+            const orderCountText = ord.length === 1 ? '1 Orden Registrada' : (ord.length === 0 ? 'Sin Órdenes Registradas' : `${ord.length} Órdenes Registradas`);
+            document.getElementById('lbl-total-orders').innerText = orderCountText;
             const tbody = document.getElementById('orders-tbody');
             tbody.innerHTML = '';
             if (ord.length > 0) {
@@ -1032,7 +1033,8 @@
             pr.resumen_prensas.forEach(p => {
                 text += `• ${p.press}: ${p.pct}% (Robot: ${p.delivered_robot} | Manual: ${p.manual} | Vulc: ${p.vulcanized})\n`;
             });
-            text += `\n*4. NOVEDADES & ÓRDENES CORRECTIVAS (${ord.length})*\n`;
+            const orderHeader = ord.length === 1 ? '1 ORDEN REGISTRADA' : (ord.length === 0 ? 'SIN ÓRDENES' : `${ord.length} ÓRDENES REGISTRADAS`);
+            text += `\n*4. NOVEDADES & ÓRDENES CORRECTIVAS (${orderHeader})*\n`;
             if (ord.length > 0) {
                 ord.forEach(o => {
                     text += `• OT ${o.ot} | ${o.titulo} (${o.maquina}) | ${o.hora} | TP: ${o.tp_min}m | BD: ${o.breakdown ? 'SÍ' : 'NO'}\n`;
