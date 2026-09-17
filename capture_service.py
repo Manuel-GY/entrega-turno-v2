@@ -26,11 +26,26 @@ def capturar_reporte_png(fecha=None, turno=None, output_path=None, port=8050):
             url += "?" + "&".join(params)
             
         print(f"Cargando reporte en: {url} ...")
-        page.goto(url, wait_until="networkidle", timeout=15000)
+        page.goto(url, wait_until="networkidle", timeout=20000)
         
-        # Esperar que flatpickr y los datos del backend se rendericen
+        # Esperar que #report-card sea visible
         page.wait_for_selector("#report-card", state="visible")
-        time.sleep(0.8) # Espera breve para asegurar fuentes y tablas completas
+        
+        # Esperar que los datos se hayan cargado y procesado
+        try:
+            page.wait_for_function("() => window.reportRendered === true", timeout=15000)
+        except Exception:
+            pass
+
+        # Asegurar remoción de cualquier notificación emergente (toast) en pantalla
+        page.evaluate("""() => {
+            const toast = document.getElementById('toast');
+            if (toast) toast.remove();
+            document.querySelectorAll('.toast, .notification, #toast').forEach(el => el.remove());
+        }""")
+        
+        # Pausa de estabilidad para fuentes, estilos e imágenes
+        time.sleep(1.5)
         
         card_locator = page.locator("#report-card")
         
