@@ -245,6 +245,48 @@ def api_consolidado_turno():
 
     return jsonify(payload)
 
+@app.route("/api/daily-ticket", methods=["GET"])
+def api_daily_ticket():
+    ticket_data = fetch_json(f"{DASHBOARD_BASE}/api/daily-ticket") or {}
+    return jsonify(ticket_data)
+
+@app.route("/api/send-teams", methods=["GET", "POST"])
+def api_send_teams():
+    now_date, now_shift = get_current_shift_info()
+    fecha_req = request.args.get("fecha", now_date)
+    turno_req = request.args.get("turno", now_shift)
+    force = request.args.get("force", "false").lower() == "true"
+    
+    from scheduler_service import consultar_ticket_programado, ejecutar_proceso_envio_turno
+    
+    total_ticket, formatted_ticket, ok = consultar_ticket_programado()
+    if total_ticket <= 0 and not force:
+        return jsonify({
+            "success": False,
+            "skipped": True,
+            "message": f"Envío omitido: Ticket Requerido en 0 tires ({formatted_ticket}). Use force=true para forzar.",
+            "ticket": formatted_ticket
+        }), 200
+        
+    exito, msg = ejecutar_proceso_envio_turno(turno_req, fecha_req, port=8050)
+    return jsonify({
+        "success": exito,
+        "message": msg,
+        "turno": turno_req,
+        "fecha": fecha_req,
+        "ticket": formatted_ticket
+    }), (200 if exito else 500)
+
 if __name__ == "__main__":
+    import threading
+    from scheduler_service import iniciar_scheduler_loop
+    
+    # Iniciar planificador en segundo plano
+    auto_enabled = os.getenv("AUTO_SEND_ENABLED", "true").lower() == "true"
+    if auto_enabled:
+        t_sched = threading.Thread(target=iniciar_scheduler_loop, kwargs={"port": 8050}, daemon=True)
+        t_sched.start()
+        log.info("Scheduler automático de Teams iniciado en segundo plano (06:45, 14:45, 22:45).")
+        
     print("Iniciando Servidor Entrega Turno v2 en http://localhost:8050 ...")
-    app.run(host="0.0.0.0", port=8050, debug=True)
+    app.run(host="0.0.0.0", port=8050, debug=False)

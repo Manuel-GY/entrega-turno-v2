@@ -628,17 +628,25 @@
             <button class="btn btn-outline" id="btn-refresh" onclick="cargarDatos()">
                 <i class="fa-solid fa-rotate"></i> Actualizar
             </button>
+
+            <div style="font-size: 12px; font-weight: 700; color: #475569; background: #F1F5F9; padding: 6px 12px; border-radius: 4px; border: 1px solid #CBD5E1; display: flex; align-items: center; gap: 6px;">
+                <i class="fa-solid fa-clipboard-check" style="color: var(--goodyear-racing-navy);"></i>
+                <span>Ticket: <b id="lbl-ticket-toolbar" style="color: var(--goodyear-racing-navy);">13,500 tires</b></span>
+            </div>
         </div>
 
         <div class="controls-right" style="display: flex; gap: 10px;">
             <button class="btn btn-gold" id="btn-copy-img" onclick="copiarImagenTeams()">
                 <i class="fa-solid fa-camera"></i> Copiar Imagen para Teams
             </button>
-            <button class="btn btn-navy" id="btn-download-img" onclick="descargarImagen()">
-                <i class="fa-solid fa-download"></i> Descargar PNG
+            <button class="btn btn-navy" id="btn-send-teams-direct" onclick="enviarReporteTeamsDirecto()">
+                <i class="fa-solid fa-paper-plane"></i> Enviar a Teams
+            </button>
+            <button class="btn btn-outline" id="btn-download-img" onclick="descargarImagen()">
+                <i class="fa-solid fa-download"></i> PNG
             </button>
             <button class="btn btn-outline" id="btn-copy-text" onclick="copiarTextoResumen()">
-                <i class="fa-solid fa-copy"></i> Copiar Texto
+                <i class="fa-solid fa-copy"></i> Texto
             </button>
         </div>
     </div>
@@ -863,14 +871,23 @@
     <script>
         let currentData = null;
 
+        const urlParams = new URLSearchParams(window.location.search);
+        const paramFecha = urlParams.get('fecha');
+        const paramTurno = urlParams.get('turno');
+
         // Init Flatpickr
         const fp = flatpickr("#fecha-input", {
             dateFormat: "Y-m-d",
-            defaultDate: new Date(),
+            defaultDate: paramFecha || new Date(),
             onChange: function() {
                 cargarDatos();
             }
         });
+
+        if (paramTurno) {
+            const tSel = document.getElementById('turno-select');
+            if (tSel) tSel.value = paramTurno;
+        }
 
         document.getElementById('turno-select').addEventListener('change', cargarDatos);
 
@@ -1082,9 +1099,53 @@
             });
         }
 
+        async function enviarReporteTeamsDirecto() {
+            const fecha = document.getElementById('fecha-input').value || new Date().toISOString().split('T')[0];
+            const turno = document.getElementById('turno-select').value || 'T2';
+            const btn = document.getElementById('btn-send-teams-direct');
+            
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Enviando...';
+            showToast("🚀 Generando imagen y despachando a Microsoft Teams...");
+            
+            try {
+                const res = await fetch(`/api/send-teams?fecha=${fecha}&turno=${turno}&force=true`, { method: 'POST' });
+                const data = await res.json();
+                
+                if (data.success) {
+                    showToast("✅ ¡Reporte enviado exitosamente a Microsoft Teams!");
+                } else if (data.skipped) {
+                    showToast(`⚠️ ${data.message}`);
+                } else {
+                    showToast(`⚠️ Error al enviar: ${data.message}`);
+                }
+            } catch (err) {
+                console.error(err);
+                showToast("Error de conexión al despachar a Teams.");
+            } finally {
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fa-solid fa-paper-plane"></i> Enviar a Teams';
+            }
+        }
+
+        async function cargarTicketToolbar() {
+            try {
+                const res = await fetch('/api/daily-ticket');
+                if (res.ok) {
+                    const d = await res.json();
+                    const val = d.formatted || d.total || '0';
+                    const el = document.getElementById('lbl-ticket-toolbar');
+                    if (el) el.innerText = `${val} tires`;
+                }
+            } catch (e) {
+                console.error("Error loading daily ticket:", e);
+            }
+        }
+
         // Auto load on startup
         window.addEventListener('DOMContentLoaded', () => {
             cargarDatos();
+            cargarTicketToolbar();
         });
     </script>
 </body>
