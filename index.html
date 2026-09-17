@@ -838,8 +838,7 @@
                             <th style="width: 90px;">Hora</th>
                             <th style="width: 170px;">Equipo / Máquina</th>
                             <th>Título / Problema</th>
-                            <th style="width: 100px; text-align: center;">Tiempo (TP)</th>
-                            <th style="width: 120px; text-align: center;">Breakdown</th>
+                            <th style="width: 110px; text-align: center;">Tiempo (TP)</th>
                             <th>Detalle Intervención</th>
                         </tr>
                     </thead>
@@ -850,7 +849,6 @@
                             <td><b>L504-Z13-MOTOPOLIN</b><br><span style="font-size:11px; color:var(--goodyear-black); font-weight:600;">CONVEYOR MOTOPOLIN ZONA 13</span></td>
                             <td><b>Tarjeta CV bypass</b></td>
                             <td style="text-align: center; font-family: var(--font-mono); font-weight:700;">0 min</td>
-                            <td style="text-align: center;"><span class="badge-bd-no"><i class="fa-solid fa-circle-check"></i> NO</span></td>
                             <td style="font-size:13px; color:var(--goodyear-black); font-weight:500;">Intervención técnica en tarjeta bypass de Zona 13 (sin impacto en parada de línea).</td>
                         </tr>
                     </tbody>
@@ -975,9 +973,6 @@
             tbody.innerHTML = '';
             if (ord.length > 0) {
                 ord.forEach(o => {
-                    const bdBadge = o.breakdown 
-                        ? `<span class="badge-bd-yes"><i class="fa-solid fa-triangle-exclamation"></i> SÍ</span>`
-                        : `<span class="badge-bd-no"><i class="fa-solid fa-circle-check"></i> NO</span>`;
                     tbody.innerHTML += `
                         <tr>
                             <td><span class="badge-ot">${o.ot}</span></td>
@@ -985,7 +980,6 @@
                             <td><b style="font-size:14px;">${o.maquina || o.equipo}</b><br><span style="font-size:12px; color:#475569; font-weight:700;">${o.equipo}</span></td>
                             <td><b style="font-size:14px;">${o.titulo}</b></td>
                             <td style="text-align: center; font-family: var(--font-mono); font-weight:800; font-size:14px;">${o.tp_min} min</td>
-                            <td style="text-align: center;">${bdBadge}</td>
                             <td style="font-size:14px; color:var(--goodyear-black); font-weight:500; line-height:1.4;">${o.detalle || o.titulo || 'Sin observaciones adicionales registradas.'}</td>
                         </tr>
                     `;
@@ -993,7 +987,7 @@
             } else {
                 tbody.innerHTML = `
                     <tr>
-                        <td colspan="7" style="text-align:center; padding:20px; color:var(--goodyear-dark-gray);">
+                        <td colspan="6" style="text-align:center; padding:20px; color:var(--goodyear-dark-gray);">
                             <i class="fa-solid fa-circle-check" style="color:var(--status-green); font-size:18px;"></i><br>
                             Sin eventos correctivos reportados en este turno.
                         </td>
@@ -1077,7 +1071,7 @@
             text += `\n*4. NOVEDADES & ÓRDENES CORRECTIVAS (${orderHeader})*\n`;
             if (ord.length > 0) {
                 ord.forEach(o => {
-                    text += `• OT ${o.ot} | ${o.titulo} (${o.maquina}) | ${o.hora} | TP: ${o.tp_min}m | BD: ${o.breakdown ? 'SÍ' : 'NO'}\n`;
+                    text += `• OT ${o.ot} | ${o.titulo} (${o.maquina}) | ${o.hora} | TP: ${o.tp_min} min\n`;
                 });
             } else {
                 text += `• Sin eventos correctivos reportados.\n`;
