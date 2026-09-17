@@ -38,6 +38,7 @@ def enviar_imagen_a_teams(img_bytes, titulo="Entrega de Turno - ASRS", webhook_u
         payload = {
             "type": "message",
             "title": f"📋 {titulo}",
+            "imageB64": b64_img,
             "imageUrl": data_uri,
             "text": f"📋 {titulo}",
             "attachments": [
