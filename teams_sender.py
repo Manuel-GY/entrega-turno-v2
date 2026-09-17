@@ -34,9 +34,12 @@ def enviar_imagen_a_teams(img_bytes, titulo="Entrega de Turno - ASRS", webhook_u
         b64_img = base64.b64encode(img_bytes).decode("utf-8")
         data_uri = f"data:image/png;base64,{b64_img}"
 
-        # Adaptive Card para Microsoft Teams
+        # Payload compatible con Power Automate y Webhooks estándar de Teams
         payload = {
             "type": "message",
+            "title": f"📋 {titulo}",
+            "imageUrl": data_uri,
+            "text": f"📋 {titulo}",
             "attachments": [
                 {
                     "contentType": "application/vnd.microsoft.card.adaptive",
